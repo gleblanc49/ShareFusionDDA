@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/templates/default.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:my="http://java.sun.com/jsf/composite/components"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+
+    <ui:define name="content">
+        <h:outputStylesheet name="app.css" library="css"/>
+        <h:outputScript target="head" name="showMessage.js" library="js"/>
+        <h1>Dancers</h1>
+		<h:form id="dancerPageForm">
+			<h:panelGrid columns="2"  style="vertical-align:top;">
+				<rich:panel style="padding:0" headerClass="outpanelHeader" >
+					<h:panelGrid columns="2" style=" width : 300px;" >
+			            <h:outputLabel style=" width : 85px;" value="First Name: " />
+			            <h:inputText value="#{dancerPage.dancer.firstName}" />
+			            <h:outputLabel style=" width : 85px;" value="Last Name: " />
+			            <h:inputText value="#{dancerPage.dancer.lastName}" />
+						<h:outputLabel style=" width : 85px;" value="Address 1: " />
+						<h:inputText value="#{dancerPage.dancer.address1}" />
+						<h:outputLabel style=" width : 85px;" value="Address 2: " />
+						<h:inputText value="#{dancerPage.dancer.address2}" />
+						<h:outputLabel style=" width : 85px;" value="City: " />
+						<h:inputText value="#{dancerPage.dancer.city}" />
+						<h:outputLabel style=" width : 85px;" value="Province: " />
+						<h:inputText value="#{dancerPage.dancer.province}" />
+						<h:outputLabel style=" width : 85px;" value="Postal Code: " />
+						<h:inputText value="#{dancerPage.dancer.postalCode}" />
+						<h:outputLabel style=" width : 85px;" value="Primary Email: " />
+						<h:inputText value="#{dancerPage.dancer.email1}" />
+						<h:outputLabel style=" width : 85px;" value="Second Email: " />
+						<h:inputText value="#{dancerPage.dancer.email2}" />
+						<h:outputLabel style=" width : 85px;" value="Third Email: " />
+						<h:inputText value="#{dancerPage.dancer.email3}" />
+						<h:outputLabel style=" width : 85px;" value="Fourth Email: " />
+						<h:inputText value="#{dancerPage.dancer.email4}" />
+					</h:panelGrid>
+					<h:commandButton value="Save" action="#{dancerPage.saveDancer()}" />
+				</rich:panel>
+				<rich:panel  style="vertical-align:top;" headerClass="outpanelHeader" title="Dancer By Last Name">
+					<rich:dataTable value="#{dancerPage.dancers}" var="dancer" >
+						<f:facet name="caption">
+			                <h:outputText value="Select Letter for Dancer" />
+				        </f:facet>
+				        <f:facet name="header">
+				                <h:outputText value="Selected Letter - #{dancerPage.currentLetter}"/>
+				        </f:facet>
+						<rich:column >
+							<f:facet name="header">First Name</f:facet>
+			    				#{dancer.firstName}
+			   			</rich:column>
+						<rich:column>
+							<f:facet name="header">Last Name</f:facet>
+			    				#{dancer.lastName}
+			   			</rich:column>
+						<rich:column>
+							<f:facet name="header">Email</f:facet>
+			    				#{dancer.email1}
+			   			</rich:column>
+			   			 <f:facet name="footer">
+					<table>
+						<tr>
+							<c:forEach var="letter" items="#{dancerPage.findAlphabet()}">
+								<td>
+									<h:commandLink value="#{letter}" action="#{dancerPage.selectLastNameLetter()}" render="Names" actionListener="#{dancerPage.selectLastNameLetter}">
+										<f:setPropertyActionListener target="#{dancerPage.currentLetter}"
+								                                              value="#{letter}"/>
+									</h:commandLink>
+				   				</td>
+							</c:forEach>
+						</tr>
+					</table>
+				        </f:facet>
+					</rich:dataTable>
+				</rich:panel>
+			</h:panelGrid>
+       </h:form>
+    </ui:define>
+</ui:composition>
